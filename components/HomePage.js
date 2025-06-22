@@ -37,9 +37,9 @@ function renderHomePage(container) {
     // Obsługa przycisku "Zagraj teraz"
     document.getElementById('btn-play').onclick = () => {
         if (getLoggedUser()) {
-            renderPlayerDashboard(document.getElementById('panel-main'));
+            renderPlayerDashboard(document.getElementById('app'), getLoggedUser());
         } else {
-            showLoginModal(() => renderPlayerDashboard(document.getElementById('panel-main')));
+            showLoginModal(() => renderPlayerDashboard(document.getElementById('app'), getLoggedUser()));
         }
     };
     // Obsługa przycisku "O grze"

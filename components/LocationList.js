@@ -1,20 +1,17 @@
-// Przykładowy zestaw lokacji z wymaganym poziomem
 const ALL_LOCATIONS = [
-  { name: "Opuszczone Miasto",      desc: "Ruiny starego miasta, pełne niebezpieczeństw.", minLevel: 1 },
-  { name: "Las Cieni",              desc: "Gęsty las, w którym łatwo się zgubić.", minLevel: 1 },
-  { name: "Zardzewiała Stacja",     desc: "Opuszczona stacja kolejowa.", minLevel: 2 },
-  { name: "Baza Łupieżców",         desc: "Schronienie bandytów, bardzo niebezpieczne!", minLevel: 3 },
-  { name: "Jezioro Mutantów",       desc: "Woda nie jest tu bezpieczna...", minLevel: 4 },
-  { name: "Zatopiony Bunkier",      desc: "Stary bunkier z czasów wojny.", minLevel: 5 },
+  { name: "Opuszczone Miasto", desc: "Ruiny starego miasta, pełne niebezpieczeństw.", minLevel: 1 },
+  { name: "Las Cieni", desc: "Gęsty las, w którym łatwo się zgubić.", minLevel: 1 },
+  { name: "Zardzewiała Stacja", desc: "Opuszczona stacja kolejowa.", minLevel: 2 },
+  { name: "Baza Łupieżców", desc: "Schronienie bandytów, bardzo niebezpieczne!", minLevel: 3 },
+  { name: "Jezioro Mutantów", desc: "Woda nie jest tu bezpieczna...", minLevel: 4 },
+  { name: "Zatopiony Bunkier", desc: "Stary bunkier z czasów wojny.", minLevel: 5 },
 ];
 
-// Zwraca dostępne dla gracza lokacje
 function getAvailableLocations(player) {
   if (!player || typeof player.level !== "number") return [];
   return ALL_LOCATIONS.filter(loc => player.level >= loc.minLevel);
 }
 
-// Renderuje listę lokacji
 export function renderLocationList(container, player, onTravel) {
   const locations = getAvailableLocations(player);
   let html = `<div class="panel">

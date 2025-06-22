@@ -737,7 +737,7 @@ h1 {
 }
 
 .banner-ticker-animate {
-  animation: ticker-move 3.7s linear;
+  animation: ticker-move 5.5s linear;
 }
 
 @keyframes ticker-move {

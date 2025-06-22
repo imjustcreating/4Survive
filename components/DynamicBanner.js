@@ -44,5 +44,5 @@ export function renderDynamicBanner() {
   setInterval(() => {
     idx = (idx + 1) % DYNAMIC_MESSAGES.length;
     showMessage(idx);
-  }, 4200);
+  }, 6000);
 }

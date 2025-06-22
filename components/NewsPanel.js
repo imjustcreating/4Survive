@@ -1,15 +1,33 @@
 const NEWS = [
   {
     date: "2025-06-22",
+    title: "Dynamiczny banner i jeszcze lepszy interfejs gry!",
+    body: `Na stronie głównej pojawił się dynamiczny, animowany banner z poradami i informacjami. Rozbudowaliśmy także interfejs gry: nowe panele, lepsza prezentacja statystyk i przygotowania pod system ekwipunku. Piszcie swoje opinie na Discordzie!`,
+    tags: ["banner", "UI", "nowość"]
+  },
+  {
+    date: "2025-06-22",
     title: "Dynamiczne tło i animacje cząsteczek — nowy wygląd strony!",
     body: `Uruchomiliśmy nową wersję strony głównej z animowanym tłem, efektami i dynamicznym banerem. Dziękujemy za opinie oraz zgłoszenia błędów!`,
     tags: ["nowość", "UI"]
+  },
+  {
+    date: "2025-06-21",
+    title: "Nowy system ekwipunku i konkurs dla graczy",
+    body: `Dodaliśmy prototyp systemu ekwipunku! Możesz już zbierać i przeglądać przedmioty. Wystartował konkurs na najlepszą sugestię mechaniki – do wygrania unikalne nagrody w grze. Zajrzyj na Discord po szczegóły!`,
+    tags: ["ekwipunek", "konkurs", "społeczność"]
   },
   {
     date: "2025-06-20",
     title: "Efekty wizualne i glassmorphism",
     body: `Panele i interfejs korzystają teraz z efektu glassmorphism, a całość jest bardziej immersyjna i przejrzysta. To dopiero początek zmian wizualnych!`,
     tags: ["update", "design"]
+  },
+  {
+    date: "2025-06-19",
+    title: "Plany na przyszłość – roadmapa na lato",
+    body: `Pracujemy nad systemem klanów, rankingiem graczy oraz nową mapą. Zajrzyj do roadmapy na stronie głównej i podziel się pomysłami!`,
+    tags: ["roadmapa", "społeczność"]
   },
   {
     date: "2025-06-18",

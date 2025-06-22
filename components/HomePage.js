@@ -1,9 +1,7 @@
-import { showLoginModal, getLoggedUser, logoutUser } from './LoginModal.js';
+import { showLoginModal, getLoggedUser } from './LoginModal.js';
 import { renderNewsPanel } from './NewsPanel.js';
-import { renderPlayerDashboard } from './PlayerDashboard.js';
-import { renderDynamicBanner } from './DynamicBanner.js';
+import { renderGameApp } from './GameApp.js';
 
-// Renderuje stronę główną
 function renderHomePage(container) {
     container.innerHTML = `
         <div class="logo-wrap">
@@ -35,29 +33,22 @@ function renderHomePage(container) {
         </div>
     `;
 
-    // Dynamiczny baner!
-    renderDynamicBanner();
-
-    // Obsługa przycisku "Zagraj teraz"
     document.getElementById('btn-play').onclick = () => {
         if (getLoggedUser()) {
-            renderPlayerDashboard(document.getElementById('app'), getLoggedUser());
+            renderGameApp(document.getElementById('app'), getLoggedUser());
         } else {
-            showLoginModal(() => renderPlayerDashboard(document.getElementById('app'), getLoggedUser()));
+            showLoginModal(() => renderGameApp(document.getElementById('app'), getLoggedUser()));
         }
     };
-    // Obsługa przycisku "O grze"
     document.getElementById('btn-about').onclick = () => {
         document.getElementById('panel-main').innerHTML = getAboutPanel();
     };
-    // Obsługa przycisku "Aktualności"
     document.getElementById('btn-news').onclick = () => {
         const panel = document.getElementById('panel-main');
         renderNewsPanel(panel);
     };
 }
 
-// Panel startowy (wstępny opis gry)
 function getIntroPanel() {
     return `<div class='panel'>
         <div class='section-title'>4Survive</div>
@@ -65,7 +56,6 @@ function getIntroPanel() {
     </div>`;
 }
 
-// Panel "O grze"
 function getAboutPanel() {
     return `<div class='panel'>
         <div class='section-title'>O grze</div>

@@ -8,8 +8,8 @@ const ALL_LOCATIONS = [
 ];
 
 function getAvailableLocations(player) {
-  if (!player || typeof player.level !== "number") return [];
-  return ALL_LOCATIONS.filter(loc => player.level >= loc.minLevel);
+  const level = Number(player?.level) || 1;
+  return ALL_LOCATIONS.filter(loc => level >= loc.minLevel);
 }
 
 export function renderLocationList(container, player, onTravel) {

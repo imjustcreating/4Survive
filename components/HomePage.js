@@ -1,6 +1,7 @@
 import { showLoginModal, getLoggedUser, logoutUser } from './LoginModal.js';
 import { renderNewsPanel } from './NewsPanel.js';
 import { renderPlayerDashboard } from './PlayerDashboard.js';
+import { renderDynamicBanner } from './DynamicBanner.js';
 
 // Renderuje stronę główną
 function renderHomePage(container) {
@@ -33,6 +34,9 @@ function renderHomePage(container) {
             &copy; ${new Date().getFullYear()} 4Survive.pl &mdash; Gra autorska polskiego zespołu. Wszelkie prawa zastrzeżone.
         </div>
     `;
+
+    // Dynamiczny baner!
+    renderDynamicBanner();
 
     // Obsługa przycisku "Zagraj teraz"
     document.getElementById('btn-play').onclick = () => {

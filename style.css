@@ -778,3 +778,31 @@ h1 {
     background: #463c0088;
     border-radius: 9px;
 }
+
+#dynamic-banner {
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  padding: 0 22px;
+  font-size: 1.09em;
+  overflow: hidden;
+  position: relative;
+  border-radius: 8px;
+  background: rgba(20,24,32,0.47);
+  border: 1px solid var(--accent-dark);
+  box-shadow: 0 1px 8px #0002;
+  margin: 0 auto 18px auto;
+  max-width: 560px;
+  font-family: "Montserrat", "Segoe UI", Arial, sans-serif;
+}
+
+.banner-ticker-animate {
+  animation: ticker-move 3.7s linear;
+}
+
+@keyframes ticker-move {
+  0%   { transform: translateX(80%); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateX(-40%); opacity: 0; }
+}

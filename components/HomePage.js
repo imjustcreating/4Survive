@@ -2,6 +2,7 @@ import { showLoginModal, getLoggedUser, logoutUser } from './LoginModal.js';
 import { renderNewsPanel } from './NewsPanel.js';
 import { renderPlayerDashboard } from './PlayerDashboard.js';
 
+// Renderuje stronę główną
 function renderHomePage(container) {
     container.innerHTML = `
         <div class="logo-wrap">
@@ -24,44 +25,47 @@ function renderHomePage(container) {
             ${getIntroPanel()}
         </div>
         <div class="social-links" aria-label="Linki społecznościowe">
-            <a href="https://discord.com/" target="_blank" title="Discord" aria-label="Discord"><span>💬</span></a>
+            <a href="https://discord.com/" target="_blank" title="Discord" aria-label="Discord"><span>🗨️</span></a>
             <a href="https://facebook.com/" target="_blank" title="Facebook" aria-label="Facebook"><span>📘</span></a>
             <a href="mailto:kontakt@4survive.pl" title="E-mail" aria-label="Email"><span>✉️</span></a>
         </div>
         <div class="footer">
-            &copy; ${new Date().getFullYear()} 4Survive.pl &mdash; Gra autorstwa polskiego zespołu. Wszelkie prawa zastrzeżone.
+            &copy; ${new Date().getFullYear()} 4Survive.pl &mdash; Gra autorska polskiego zespołu. Wszelkie prawa zastrzeżone.
         </div>
     `;
 
+    // Obsługa przycisku "Zagraj teraz"
     document.getElementById('btn-play').onclick = () => {
-        if(getLoggedUser()) {
+        if (getLoggedUser()) {
             renderPlayerDashboard(document.getElementById('panel-main'));
         } else {
             showLoginModal(() => renderPlayerDashboard(document.getElementById('panel-main')));
         }
     };
+    // Obsługa przycisku "O grze"
     document.getElementById('btn-about').onclick = () => {
         document.getElementById('panel-main').innerHTML = getAboutPanel();
     };
+    // Obsługa przycisku "Aktualności"
     document.getElementById('btn-news').onclick = () => {
         const panel = document.getElementById('panel-main');
         renderNewsPanel(panel);
     };
 }
 
-// Funkcja startowa - panel powitalny
+// Panel startowy (wstępny opis gry)
 function getIntroPanel() {
     return `<div class='panel'>
         <div class='section-title'>4Survive</div>
-        <div class='intro-text'>Witaj w postapokaliptycznej grze przeglądarkowej! Zaloguj się, by zacząć przygodę.</div>
+        <div class='intro-text'>Witaj w postapokaliptycznej grze przeglądarkowej! Zaloguj się, by zacząć przygodę i być częścią rozwoju.</div>
     </div>`;
 }
 
-// Panel o grze
+// Panel "O grze"
 function getAboutPanel() {
     return `<div class='panel'>
         <div class='section-title'>O grze</div>
-        <div class='intro-text'>4Survive to gra MMO w klimacie postapo stworzona przez pasjonatów.<br>Rywalizuj, eksploruj, przetrwaj!</div>
+        <div class='intro-text'>4Survive to gra MMO w klimacie postapo stworzona przez pasjonatów. Rywalizuj, eksploruj, przetrwaj!</div>
     </div>`;
 }
 

@@ -17,7 +17,7 @@ const USERS = [
   {login:"slavko", password:"vodka"},
 ];
 
-// Users w localStorage
+// Ustaw USERS w localStorage tylko raz
 if(!localStorage.getItem("4survive_users")) {
   localStorage.setItem("4survive_users", JSON.stringify(USERS));
 }
@@ -26,19 +26,24 @@ function getUsers() {
   return JSON.parse(localStorage.getItem("4survive_users") || "[]");
 }
 
-function showLoginModal(onLogin) {
+// --- LOGIN MODAL ---
+function showLoginModal(onLogin, onClose) {
+  // Usuń poprzedni modal jeśli istnieje
   document.getElementById("login-modal")?.remove();
+
+  // Zablokuj scroll strony podczas modala
+  document.body.style.overflow = "hidden";
 
   const modal = document.createElement("div");
   modal.className = "login-modal-bg";
   modal.id = "login-modal";
   modal.innerHTML = `
-    <div class="login-modal-window">
+    <div class="login-modal-window" tabindex="0">
       <button class="login-modal-close" title="Zamknij" id="login-close">&times;</button>
       <div class="login-modal-title">Logowanie do 4Survive</div>
       <form id="login-form" autocomplete="off">
         <label for="login-username">Login</label>
-        <input type="text" id="login-username" autocomplete="username" required maxlength="20">
+        <input type="text" id="login-username" autocomplete="username" required maxlength="20" spellcheck="false">
         <label for="login-password">Hasło</label>
         <input type="password" id="login-password" autocomplete="current-password" required maxlength="20">
         <div class="login-error" id="login-error"></div>
@@ -54,11 +59,19 @@ function showLoginModal(onLogin) {
 
   setTimeout(() => {
     document.getElementById("login-username").focus();
-  }, 200);
+  }, 150);
 
-  document.getElementById("login-close").onclick = () => modal.remove();
-  modal.onclick = e => { if(e.target === modal) modal.remove(); };
+  // Zamknij modal (X lub klik poza okno)
+  function closeModal() {
+    modal.remove();
+    document.body.style.overflow = "";
+    if (typeof onClose === "function") onClose();
+  }
+  document.getElementById("login-close").onclick = closeModal;
+  modal.onclick = e => { if(e.target === modal) closeModal(); };
+  modal.onkeydown = e => { if(e.key === "Escape") closeModal(); };
 
+  // Obsługa logowania
   document.getElementById("login-form").onsubmit = e => {
     e.preventDefault();
     const login = document.getElementById("login-username").value.trim();
@@ -74,6 +87,7 @@ function showLoginModal(onLogin) {
     error.textContent = "";
     error.classList.remove("show");
     modal.remove();
+    document.body.style.overflow = "";
     sessionStorage.setItem("4survive_currentUser", JSON.stringify(user));
     if(typeof onLogin === "function") onLogin(user);
   };

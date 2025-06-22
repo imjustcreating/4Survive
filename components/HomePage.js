@@ -4,107 +4,216 @@ import { renderGameApp } from './GameApp.js';
 import { renderDynamicBanner } from './DynamicBanner.js';
 
 function renderHomePage(container) {
+    // Spraw by #app miał padding tylko jeśli nie jest LoginModal
     container.innerHTML = `
-        <div class="logo-wrap">
-            <div class="logo-bg-circle"></div>
-            <img src="assets/logo.png" class="logo-main" alt="Logo gry 4Survive.pl">
-        </div>
-        <h1>4Survive.pl</h1>
-        <div class="slogan">
-            Przetrwaj. Odkrywaj. Rywalizuj.<br>
-            <span style="font-size:1em; color:var(--accent-dark)">Postapokaliptyczna gra przeglądarkowa online</span>
-        </div>
-        <div class="dynamic-banner" id="dynamic-banner"></div>
-        <div class="hero-art"></div>
-        <div class="home-actions">
-            <button class="home-btn" id="btn-play">Zagraj teraz</button>
-            <button class="home-btn secondary-btn" id="btn-about">O grze</button>
-            <button class="home-btn secondary-btn" id="btn-news">Aktualności</button>
-        </div>
-        <div id="panel-main">
-            ${getIntroPanel()}
-        </div>
-        <div class="social-links" aria-label="Linki społecznościowe">
-            <a href="https://discord.com/" target="_blank" title="Discord" aria-label="Discord"><span>🗨️</span></a>
-            <a href="https://facebook.com/" target="_blank" title="Facebook" aria-label="Facebook"><span>📘</span></a>
-            <a href="mailto:kontakt@4survive.pl" title="E-mail" aria-label="Email"><span>✉️</span></a>
-        </div>
-        <div class="footer">
-            &copy; ${new Date().getFullYear()} 4Survive.pl &mdash; Gra autorska polskiego zespołu. Wszelkie prawa zastrzeżone.
+        <div id="main-root-home">
+            ${getAnnouncementPanel()}
+            ${getTopNav()}
+            <section class="highlighted-news-panel">
+                ${getHighlightedNewsPanel()}
+            </section>
+            <section class="hero-section">
+                <div class="logo-wrap-hero">
+                    <img src="assets/logo.png" class="logo-main-hero" alt="Logo gry 4Survive.pl">
+                </div>
+                <div class="hero-content">
+                    <h1>4Survive.pl</h1>
+                    <div class="hero-slogan">
+                        <span class="hero-icon">☢️</span> Przetrwaj. Odkrywaj. Rywalizuj.
+                        <br>
+                        <span class="hero-slogan-small">Postapokaliptyczna gra przeglądarkowa online</span>
+                    </div>
+                    <button class="cta-btn-hero" id="btn-play">Zagraj teraz</button>
+                </div>
+                <div class="dynamic-banner" id="dynamic-banner"></div>
+            </section>
+            <section id="panel-main" class="main-panel-content"></section>
+            <section class="community-panel">
+                <div class="community-title"><span class="community-icon">💬</span> Społeczność</div>
+                <div class="community-links">
+                    <a href="https://discord.com/" target="_blank" class="community-link">
+                        <span class="community-link-icon">🗨️</span>
+                        <span>Discord</span>
+                    </a>
+                    <a href="https://facebook.com/" target="_blank" class="community-link">
+                        <span class="community-link-icon">📘</span>
+                        <span>Facebook</span>
+                    </a>
+                    <a href="mailto:kontakt@4survive.pl" class="community-link">
+                        <span class="community-link-icon">✉️</span>
+                        <span>Email</span>
+                    </a>
+                </div>
+                <div class="community-desc">
+                    Dołącz do naszej społeczności, dziel się pomysłami i graj razem!
+                </div>
+            </section>
+            <footer class="footer-adv">
+                &copy; ${new Date().getFullYear()} 4Survive.pl &mdash; Gra autorska polskiego zespołu. Wszelkie prawa zastrzeżone.
+            </footer>
         </div>
     `;
+
+    document.getElementById('nav-about').onclick = showAboutSection;
+    document.getElementById('nav-news').onclick = showNewsSection;
+
+    // Domyślnie "O grze"
+    showAboutSection();
 
     document.getElementById('btn-play').onclick = () => {
         if (getLoggedUser()) {
             renderGameApp(document.getElementById('app'), getLoggedUser());
         } else {
-            showLoginModal(() => renderGameApp(document.getElementById('app'), getLoggedUser()));
+            // Zablokuj przewijanie tła gdy modal aktywny
+            document.body.style.overflow = 'hidden';
+            showLoginModal(() => {
+                document.body.style.overflow = '';
+                renderGameApp(document.getElementById('app'), getLoggedUser());
+            }, () => {
+                // Odblokuj scroll jeśli zamknięto modal
+                document.body.style.overflow = '';
+            });
         }
-    };
-    document.getElementById('btn-about').onclick = () => {
-        document.getElementById('panel-main').innerHTML = getAboutPanel();
-    };
-    document.getElementById('btn-news').onclick = () => {
-        const panel = document.getElementById('panel-main');
-        renderNewsPanel(panel);
     };
 
     renderDynamicBanner();
 }
 
-function getIntroPanel() {
-    return `<div class='panel'>
-        <div class='section-title'>4Survive</div>
-        <div class='intro-text'>Witaj w postapokaliptycznej grze przeglądarkowej! Zaloguj się, by zacząć przygodę i być częścią rozwoju.</div>
-    </div>`;
+// NAV
+function getTopNav() {
+    return `
+        <nav class="top-nav">
+            <ul>
+                <li><a href="#" id="nav-about"><span class="icon-btn-panel">🧭</span> O grze</a></li>
+                <li><a href="#" id="nav-news"><span class="icon-btn-panel">📰</span> Aktualności</a></li>
+            </ul>
+        </nav>
+    `;
 }
 
-// ROZBUDOWANA SEKCJA "O GRZE" Z EMOJI I NAZWĄ
-function getAboutPanel() {
-    return `<div class='panel about-panel'>
-        <div class='section-title'>O grze</div>
-        <div class='about-description'>
-            4Survive to przeglądarkowa gra MMO w klimacie postapokaliptycznym, tworzona przez pasjonatów. Rywalizuj, eksploruj i przetrwaj w świecie po zagładzie!
+function showAboutSection() {
+    document.getElementById('panel-main').innerHTML = `
+        <section class="about-panel">
+            <div class='section-title'><span class="about-panel-icon">🧭</span> O grze</div>
+            <div class='about-description'>
+                4Survive to przeglądarkowa gra MMO osadzona w klimacie postapokalipsy. Twórz klany, eksploruj świat, walcz o przetrwanie!
+            </div>
+            <div class='about-features-grid'>
+                <div class='about-feature'>
+                    <div class="about-emoji">🌆</div>
+                    <div class="about-label">Postapokalipsa</div>
+                    <h3>Postapokaliptyczny świat</h3>
+                    <p>Odkrywaj zrujnowane lokacje, szukaj zasobów, walcz o przetrwanie.</p>
+                </div>
+                <div class='about-feature'>
+                    <div class="about-emoji">🎒</div>
+                    <div class="about-label">Ekwipunek</div>
+                    <h3>Rozbudowany ekwipunek</h3>
+                    <p>Zbieraj, ulepszaj i wykorzystuj przedmioty zwiększające Twoje szanse na przetrwanie.</p>
+                </div>
+                <div class='about-feature'>
+                    <div class="about-emoji">🤝</div>
+                    <div class="about-label">Społeczność</div>
+                    <h3>Klanowy system</h3>
+                    <p>Twórz klany, współpracuj lub rywalizuj z innymi graczami, bierz udział w eventach.</p>
+                </div>
+                <div class='about-feature'>
+                    <div class="about-emoji">📜</div>
+                    <div class="about-label">Zadania</div>
+                    <h3>Zadania i wyzwania</h3>
+                    <p>Codzienne misje, wyzwania i nagrody czekają na najbardziej wytrwałych.</p>
+                </div>
+                <div class='about-feature'>
+                    <div class="about-emoji">⚔️</div>
+                    <div class="about-label">PvP & PvE</div>
+                    <h3>Walki PvP & PvE</h3>
+                    <p>Walcz z potworami, innymi graczami i zdobywaj unikalne łupy!</p>
+                </div>
+                <div class='about-feature'>
+                    <div class="about-emoji">🎉</div>
+                    <div class="about-label">Wydarzenia</div>
+                    <h3>Dynamiczne wydarzenia</h3>
+                    <p>Specjalne eventy, które zmieniają świat gry i pozwalają zdobyć nowe nagrody.</p>
+                </div>
+            </div>
+        </section>
+    `;
+    setActiveNav('nav-about');
+}
+
+function showNewsSection() {
+    document.getElementById('panel-main').innerHTML = `
+        <section class="news-section-home">
+            <div class="news-preview-grid">
+                <div class="news-card">
+                    <div class="news-card-title"><span class="news-card-emoji">🎃</span> Nowy event: Noc Mutantów!</div>
+                    <div class="news-card-date">2025-06-20</div>
+                    <div class="news-card-body">Przygotuj się na walkę ze zmutowanymi potworami i zbierz specjalne nagrody! Sprawdź szczegóły w dziale wydarzenia.</div>
+                </div>
+                <div class="news-card">
+                    <div class="news-card-title"><span class="news-card-emoji">🪙</span> Wielka aktualizacja ekwipunku</div>
+                    <div class="news-card-date">2025-06-10</div>
+                    <div class="news-card-body">System ekwipunku został przebudowany. Nowe przedmioty i możliwości ulepszania już dostępne!</div>
+                </div>
+                <div class="news-card">
+                    <div class="news-card-title"><span class="news-card-emoji">💬</span> Dołącz do społeczności Discord</div>
+                    <div class="news-card-date">2025-05-22</div>
+                    <div class="news-card-body">Porozmawiaj z innymi graczami, zgłaszaj pomysły i bierz udział w konkursach!</div>
+                </div>
+            </div>
+        </section>
+    `;
+    setActiveNav('nav-news');
+}
+
+function setActiveNav(id) {
+    document.getElementById('nav-about').classList.remove('active-nav');
+    document.getElementById('nav-news').classList.remove('active-nav');
+    document.getElementById(id).classList.add('active-nav');
+}
+
+// OGŁOSZENIE
+function getAnnouncementPanel() {
+    return `
+        <div class="announcement-panel">
+            <div class="announcement-item urgent">
+                <span class="announcement-emoji urgent">❗</span>
+                <b>Gra jest w wersji testowej.</b> Obecnie serwery są wyłączone.
+            </div>
         </div>
-        <div class='about-features-grid'>
-            <div class='about-feature'>
-                <div class="about-emoji">🌆</div>
-                <div class="about-label">Postapokalipsa</div>
-                <h3>Postapokaliptyczny świat</h3>
-                <p>Odkrywaj zrujnowane lokacje, szukaj zasobów i walcz o przetrwanie.</p>
+    `;
+}
+
+// Najważniejsze newsy (pod ogłoszeniem, nad hero)
+function getHighlightedNewsPanel() {
+    return `
+        <div class="highlighted-news-list">
+            <div class="highlighted-news-card">
+                <div class="highlighted-news-emoji">🎃</div>
+                <div>
+                    <div class="highlighted-news-title">Nowy event: Noc Mutantów!</div>
+                    <div class="highlighted-news-date">2025-06-20</div>
+                    <div class="highlighted-news-body">Przygotuj się na walkę ze zmutowanymi potworami i zbierz specjalne nagrody! Sprawdź szczegóły w dziale wydarzenia.</div>
+                </div>
             </div>
-            <div class='about-feature'>
-                <div class="about-emoji">🎒</div>
-                <div class="about-label">Ekwipunek</div>
-                <h3>Rozbudowany ekwipunek</h3>
-                <p>Zbieraj, ulepszaj i wykorzystuj przedmioty, które zwiększą Twoje szanse na przeżycie.</p>
+            <div class="highlighted-news-card">
+                <div class="highlighted-news-emoji">🪙</div>
+                <div>
+                    <div class="highlighted-news-title">Wielka aktualizacja ekwipunku</div>
+                    <div class="highlighted-news-date">2025-06-10</div>
+                    <div class="highlighted-news-body">System ekwipunku został przebudowany. Nowe przedmioty i możliwości ulepszania już dostępne!</div>
+                </div>
             </div>
-            <div class='about-feature'>
-                <div class="about-emoji">🤝</div>
-                <div class="about-label">Społeczność</div>
-                <h3>Społeczność graczy</h3>
-                <p>Twórz klany, współpracuj lub rywalizuj z innymi graczami, bierz udział w wydarzeniach.</p>
-            </div>
-            <div class='about-feature'>
-                <div class="about-emoji">📜</div>
-                <div class="about-label">Zadania</div>
-                <h3>Zadania i wyzwania</h3>
-                <p>Wykonuj codzienne misje, podejmuj wyzwania i zdobywaj nagrody.</p>
-            </div>
-            <div class='about-feature'>
-                <div class="about-emoji">⚔️</div>
-                <div class="about-label">PvP & PvE</div>
-                <h3>Walki PvP & PvE</h3>
-                <p>Walcz z potworami i innymi graczami. Każde starcie to nowe doświadczenie!</p>
-            </div>
-            <div class='about-feature'>
-                <div class="about-emoji">🎉</div>
-                <div class="about-label">Wydarzenia</div>
-                <h3>Dynamiczne wydarzenia</h3>
-                <p>Weź udział w eventach, które na stałe zmieniają świat gry.</p>
+            <div class="highlighted-news-card">
+                <div class="highlighted-news-emoji">💬</div>
+                <div>
+                    <div class="highlighted-news-title">Dołącz do społeczności Discord</div>
+                    <div class="highlighted-news-date">2025-05-22</div>
+                    <div class="highlighted-news-body">Porozmawiaj z innymi graczami, zgłaszaj pomysły i bierz udział w konkursach!</div>
+                </div>
             </div>
         </div>
-    </div>`;
+    `;
 }
 
 export { renderHomePage };

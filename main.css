@@ -735,6 +735,17 @@ h1 {
   max-width: 560px;
   font-family: "Montserrat", "Segoe UI", Arial, sans-serif;
 }
+
+.banner-ticker-animate {
+  animation: ticker-move 3.7s linear;
+}
+
+@keyframes ticker-move {
+  0%   { transform: translateX(80%); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateX(-40%); opacity: 0; }
+}
 .banner-ticker-animate {
   animation: ticker-move 3.7s linear;
 }

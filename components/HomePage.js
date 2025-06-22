@@ -1,6 +1,7 @@
 import { showLoginModal, getLoggedUser } from './LoginModal.js';
 import { renderNewsPanel } from './NewsPanel.js';
 import { renderGameApp } from './GameApp.js';
+import { renderDynamicBanner } from './DynamicBanner.js';
 
 function renderHomePage(container) {
     container.innerHTML = `
@@ -47,6 +48,9 @@ function renderHomePage(container) {
         const panel = document.getElementById('panel-main');
         renderNewsPanel(panel);
     };
+
+    // Naprawa dynamicznego banera: wywołanie po każdym renderze strony głównej
+    renderDynamicBanner();
 }
 
 function getIntroPanel() {

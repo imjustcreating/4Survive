@@ -755,3 +755,71 @@ h1 {
   90%  { opacity: 1; }
   100% { transform: translateX(-40%); opacity: 0; }
 }
+
+/* ...istniejące style... */
+
+/* Styl dla rozbudowanej sekcji "O grze" z emoji i nazwą */
+.about-panel {
+    padding: 32px 20px;
+    background: rgba(40, 42, 50, 0.90);
+    border-radius: 18px;
+    box-shadow: 0 0 32px rgba(0,0,0,0.12);
+    text-align: center;
+}
+.about-panel .about-description {
+    color: #ffe580;
+    font-size: 1.18rem;
+    margin-bottom: 35px;
+    font-weight: 500;
+}
+.about-features-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 34px;
+    justify-content: center;
+    margin-top: 12px;
+}
+.about-feature {
+    flex: 1 1 240px;
+    max-width: 320px;
+    background: rgba(44, 46, 54, 0.92);
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+    padding: 22px 20px 18px 20px;
+    margin: 0 6px;
+    transition: transform 0.13s, box-shadow 0.13s;
+}
+.about-feature:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 8px 32px rgba(255, 215, 0, 0.13);
+}
+.about-emoji {
+    font-size: 2.8rem;
+    margin-bottom: 9px;
+}
+.about-label {
+    font-size: 1.05rem;
+    color: #ffd700;
+    margin-bottom: 7px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+.about-feature h3 {
+    color: #ffe580;
+    margin-bottom: 0.6em;
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+.about-feature p {
+    color: #e4e4e4;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+@media (max-width: 900px) {
+    .about-features-grid {
+        flex-direction: column;
+        align-items: center;
+        gap: 22px;
+    }
+    .about-feature { max-width: 96vw; }
+}

@@ -49,7 +49,6 @@ function renderHomePage(container) {
         renderNewsPanel(panel);
     };
 
-    // Naprawa dynamicznego banera: wywołanie po każdym renderze strony głównej
     renderDynamicBanner();
 }
 
@@ -60,10 +59,51 @@ function getIntroPanel() {
     </div>`;
 }
 
+// ROZBUDOWANA SEKCJA "O GRZE" Z EMOJI I NAZWĄ
 function getAboutPanel() {
-    return `<div class='panel'>
+    return `<div class='panel about-panel'>
         <div class='section-title'>O grze</div>
-        <div class='intro-text'>4Survive to gra MMO w klimacie postapo stworzona przez pasjonatów. Rywalizuj, eksploruj, przetrwaj!</div>
+        <div class='about-description'>
+            4Survive to przeglądarkowa gra MMO w klimacie postapokaliptycznym, tworzona przez pasjonatów. Rywalizuj, eksploruj i przetrwaj w świecie po zagładzie!
+        </div>
+        <div class='about-features-grid'>
+            <div class='about-feature'>
+                <div class="about-emoji">🌆</div>
+                <div class="about-label">Postapokalipsa</div>
+                <h3>Postapokaliptyczny świat</h3>
+                <p>Odkrywaj zrujnowane lokacje, szukaj zasobów i walcz o przetrwanie.</p>
+            </div>
+            <div class='about-feature'>
+                <div class="about-emoji">🎒</div>
+                <div class="about-label">Ekwipunek</div>
+                <h3>Rozbudowany ekwipunek</h3>
+                <p>Zbieraj, ulepszaj i wykorzystuj przedmioty, które zwiększą Twoje szanse na przeżycie.</p>
+            </div>
+            <div class='about-feature'>
+                <div class="about-emoji">🤝</div>
+                <div class="about-label">Społeczność</div>
+                <h3>Społeczność graczy</h3>
+                <p>Twórz klany, współpracuj lub rywalizuj z innymi graczami, bierz udział w wydarzeniach.</p>
+            </div>
+            <div class='about-feature'>
+                <div class="about-emoji">📜</div>
+                <div class="about-label">Zadania</div>
+                <h3>Zadania i wyzwania</h3>
+                <p>Wykonuj codzienne misje, podejmuj wyzwania i zdobywaj nagrody.</p>
+            </div>
+            <div class='about-feature'>
+                <div class="about-emoji">⚔️</div>
+                <div class="about-label">PvP & PvE</div>
+                <h3>Walki PvP & PvE</h3>
+                <p>Walcz z potworami i innymi graczami. Każde starcie to nowe doświadczenie!</p>
+            </div>
+            <div class='about-feature'>
+                <div class="about-emoji">🎉</div>
+                <div class="about-label">Wydarzenia</div>
+                <h3>Dynamiczne wydarzenia</h3>
+                <p>Weź udział w eventach, które na stałe zmieniają świat gry.</p>
+            </div>
+        </div>
     </div>`;
 }
 
